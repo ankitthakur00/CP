@@ -1,17 +1,17 @@
 #include<bits/stdc++.h>
-int n=9;
+const int n=9;
 using namespace std;
-int minvertax(int dist[],bool vis[],int n)
+int minvertax(int dist[], bool sptSet[])
 {
-    int minIndex=-1;
-    for(int i=0;i<n;i++)
-    {
-        if(!vis[i] && (minIndex==-1 || dist[minIndex]<dist[i]))
-        minIndex=i;
-    }
-    return minIndex;
-}
+    // Initialize min value
+    int min = INT_MAX, min_index;
 
+    for (int v = 0; v < V; v++)
+        if (sptSet[v] == false && dist[v] <= min)
+            min = dist[v], min_index = v;
+
+    return min_index;
+}
 void dijkstra(int edges[n][n],int src)
 {
     bool vis[n];
@@ -24,7 +24,7 @@ void dijkstra(int edges[n][n],int src)
     dist[src]=0;
     for(int i=0;i<n-1;i++)
     {
-        int minVertax=minvertax(dist,vis,n);
+        int minVertax=minvertax(dist,vis);
         vis[minVertax]=true;
         for(int j=0;j<n;j++){
         if(!vis[j] && edges[i][j] && dist[minVertax]!=INT_MAX && (edges[minVertax][j]+dist[minVertax])<dist[j])
